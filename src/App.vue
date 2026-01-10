@@ -10,7 +10,7 @@
       <section id="contacto" class="section" >
         <h2 class="section-title">Contacto</h2>
         <p class="muted">
-          Escribime a <a class="link" href="mailto:tu@mail.com">tu@mail.com</a>
+          Escribime a <a class="link" href="mailto:nicolas.caretta20@gmail.com">nicolas.caretta20@gmail.com</a>
         </p>
       </section>
     </main>

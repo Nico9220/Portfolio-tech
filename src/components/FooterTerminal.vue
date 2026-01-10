@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="inner">
-      <span class="prompt">nico@portfolio</span><span class="path">:/home$</span>
+      <span class="prompt">Nicolás Caretta</span><span class="path"></span>
       <span class="cursor"></span>
       <div class="copy">© {{ new Date().getFullYear() }} Nicolás Caretta</div>
     </div>
