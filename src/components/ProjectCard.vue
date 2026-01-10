@@ -84,4 +84,14 @@ p {
   border-color: rgba(80, 240, 255, 0.70);
   box-shadow: 0 0 28px rgba(60, 220, 255, 0.14);
 }
+.card {
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(80, 240, 255, 0.22);
+  box-shadow: 0 0 55px rgba(60, 220, 255, 0.10);
+}
+
 </style>

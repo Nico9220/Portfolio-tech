@@ -7,7 +7,7 @@
     <main class="container">
       <Hero />
       <Projects />
-      <section id="contacto" class="section">
+      <section id="contacto" class="section" >
         <h2 class="section-title">Contacto</h2>
         <p class="muted">
           Escribime a <a class="link" href="mailto:tu@mail.com">tu@mail.com</a>
