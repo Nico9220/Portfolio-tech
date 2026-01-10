@@ -3,7 +3,7 @@
     <div class="inner">
       <span class="prompt">Nicolás Caretta</span><span class="path"></span>
       <span class="cursor"></span>
-      <div class="copy">© {{ new Date().getFullYear() }} Nicolás Caretta</div>
+      <div class="copy">© {{ new Date().getFullYear() }} Nicolás Caretta - Todos los derechos reservados</div>
     </div>
   </footer>
 </template>
