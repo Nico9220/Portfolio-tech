@@ -224,7 +224,7 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
   border-radius: 28px;
   pointer-events: none;
   background: radial-gradient(
-    220px 220px at var(--mx) var(--my),
+    100px 100px at var(--mx) var(--my),
     rgba(80, 240, 255, 0.16),
     transparent 60%
   );
