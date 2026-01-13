@@ -2,7 +2,7 @@
   <section id="inicio" class="hero">
     <div class="left">
       <h1>¡Hola! Soy Nicolás</h1>
-      <h2 class="subtitle">Desarrollador Web | Frontend + Backend</h2>
+      <h2 class="subtitle">Desarrollador Web | Fullstack</h2>
 
       <p class="lead">
         Desarrollo interfaces modernas, rápidas y prolijas. Me enfoco en UX, performance y código mantenible.
