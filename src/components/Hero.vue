@@ -1,35 +1,25 @@
 <template>
   <section id="inicio" class="hero">
     <div class="left">
-      <section class="hero">
-        <h1 ref="titulo">¡Hola! Soy Nicolás</h1>
-        <p ref="subtitulo">Desarrollador Web | Frontend + Backend</p>
+      <h1 class="reveal">¡Hola! Soy Nicolás</h1>
+      <h2 class="subtitle reveal">Desarrollador Web | Fullstack</h2>
 
-        <div class="cta-row">
-          <a class="btn" ref="btn1" href="#proyectos">VER PROYECTOS</a>
-          <a class="ghost" ref="btn2" href="#sobre-mi">SOBRE MÍ</a>
-        </div>
-      </section>
-      <h1>¡Hola! Soy Nicolás</h1>
-      <h2 class="subtitle">Desarrollador Web | Fullstack</h2>
-
-      <p class="lead">
+      <p class="lead reveal">
         Desarrollo interfaces modernas, rápidas y prolijas. Me enfoco en UX,
         performance y código mantenible.
       </p>
-      <p class="lead">Trabajo con Vue 3, React y Laravel.</p>
+      <p class="lead reveal">Trabajo con Vue 3, React y Laravel.</p>
 
       <div class="cta-row">
-        <a class="btn" href="#proyectos">VER PROYECTOS</a>
-        <a class="ghost" href="#sobre-mi">SOBRE MÍ</a>
+        <a class="btn cta reveal-cta" href="#proyectos">VER PROYECTOS</a>
+        <a class="ghost cta reveal-cta" href="#sobre-mi">SOBRE MÍ</a>
       </div>
     </div>
 
     <div class="right">
-      <!-- Wrapper para tilt + perspectiva -->
       <div
         ref="avatarWrap"
-        class="avatar-wrap"
+        class="avatar-wrap reveal-avatar"
         @pointermove="onTiltMove"
         @pointerleave="onTiltLeave"
       >
@@ -48,32 +38,40 @@
     <h2 class="section-title">Sobre mí</h2>
 
     <p class="muted">
-      Soy <strong>Nicolás Caretta</strong>, desarrollador web. Me gusta
-      construir productos con una interfaz limpia, buena experiencia de usuario
-      y código mantenible. Busco siempre el equilibrio entre estética,
-      performance y practicidad.
+      Soy <strong>Nicolás Caretta</strong>, desarrollador web. Me gusta construir
+      productos con una interfaz limpia, buena experiencia de usuario y código
+      mantenible. Me enfoco en escribir componentes claros, cuidar performance y
+      mantener una estructura ordenada tanto en frontend como en backend.
     </p>
 
-    <!-- <p class="muted small">
-      Actualmente: mejorando mi stack frontend, sumando proyectos al portfolio y buscando un entorno
-      donde pueda crecer aportando valor real desde el día 1.
-    </p> -->
+    <ul class="bullets">
+      <li><strong>Frontend:</strong> UI prolija, responsive y accesible</li>
+      <li><strong>Backend:</strong> APIs REST, validaciones y lógica clara</li>
+      <li><strong>Calidad:</strong> buenas prácticas, orden y consistencia</li>
+    </ul>
+
+    <div class="chips">
+      <span class="chip">Vue 3</span>
+      <span class="chip">React</span>
+      <span class="chip">Laravel</span>
+      <span class="chip">MySQL</span>
+      <span class="chip">Git</span>
+      <span class="chip">REST</span>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn" href="#proyectos">Ver proyectos</a>
+      <a class="ghost" href="#contacto">Contactarme</a>
+    </div>
   </section>
 </template>
 
 <script setup>
-import { ref, computed, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import perfil from "../assets/perfil.jpg";
+import { createTimeline, stagger } from "animejs";
 
 const avatarWrap = ref(null);
-
-const state = ref({
-  rx: 0,
-  ry: 0,
-  mx: 50,
-  my: 50,
-  active: false,
-});
 
 const reducedMotion =
   typeof window !== "undefined" &&
@@ -81,6 +79,16 @@ const reducedMotion =
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 let raf = 0;
+let introTl = null;
+
+/* ====== TILT STATE ====== */
+const state = ref({
+  rx: 0,
+  ry: 0,
+  mx: 50,
+  my: 50,
+  active: false,
+});
 
 function clamp(n, min, max) {
   return Math.min(max, Math.max(min, n));
@@ -126,10 +134,57 @@ const tiltStyle = computed(() => ({
   "--lift": state.value.active ? "10px" : "0px",
 }));
 
-onBeforeUnmount(() => cancelAnimationFrame(raf));
+/* ====== INTRO ANIMATION ====== */
+onMounted(() => {
+  if (reducedMotion) return;
+
+  introTl = createTimeline({
+    defaults: { easing: "easeOutExpo" },
+  });
+
+  introTl.add(".left .reveal", {
+    opacity: [0, 1],
+    translateY: [14, 0],
+    duration: 1000,
+    delay: stagger(90),
+  });
+
+  introTl.add(
+    ".left .reveal-cta",
+    {
+      opacity: [0, 1],
+      translateY: [10, 0],
+      duration: 520,
+      delay: stagger(120),
+    },
+    "<-=250"
+  );
+
+  introTl.add(
+    ".reveal-avatar",
+    {
+      opacity: [0, 1],
+      scale: [0.96, 1],
+      duration: 1000,
+    },
+    "<-=450"
+  );
+});
+
+onBeforeUnmount(() => {
+  cancelAnimationFrame(raf);
+  introTl?.revert();
+});
 </script>
 
 <style scoped>
+/* Evita “flash” antes de que Anime arranque */
+.reveal,
+.reveal-cta,
+.reveal-avatar {
+  opacity: 0;
+}
+
 .hero {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
@@ -254,7 +309,6 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
   box-shadow: 0 0 45px rgba(60, 220, 255, 0.12);
   filter: contrast(1.05) saturate(1.05);
 
-  /* 3D + escala por hover sin pisar el transform */
   transform: translateZ(18px) scale(var(--ps, 1));
   animation: pulseGlow 3.8s ease-in-out infinite;
 }
@@ -333,38 +387,52 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
   }
 }
 
-/* Entrada suave del texto */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.left h1,
-.left .subtitle,
-.left .lead,
-.cta-row {
-  animation: fadeUp 650ms ease both;
-}
-.left .subtitle {
-  animation-delay: 60ms;
-}
-.left .lead:nth-of-type(1) {
-  animation-delay: 120ms;
-}
-.left .lead:nth-of-type(2) {
-  animation-delay: 180ms;
-}
-.cta-row {
-  animation-delay: 240ms;
-}
-
+/* ===== About ===== */
 .about {
   padding: 46px 0 0;
+}
+
+.section-title {
+  margin: 0 0 14px;
+  font-size: 22px;
+  color: rgba(220, 252, 255, 0.92);
+  text-shadow: 0 0 18px rgba(60, 220, 255, 0.14);
+}
+
+.muted {
+  color: rgba(220, 245, 255, 0.72);
+  line-height: 1.6;
+  max-width: 70ch;
+}
+
+.small {
+  font-size: 12.5px;
+  opacity: 0.9;
+}
+
+.bullets {
+  margin: 14px 0 12px;
+  padding-left: 18px;
+  color: rgba(220, 245, 255, 0.72);
+  line-height: 1.6;
+}
+.bullets li {
+  margin: 6px 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 12px;
+}
+.chip {
+  font-size: 12px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(80, 240, 255, 0.14);
+  background: rgba(0, 140, 200, 0.08);
+  color: rgba(220, 245, 255, 0.78);
 }
 
 /* Responsive */
@@ -385,11 +453,7 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
 @media (prefers-reduced-motion: reduce) {
   .avatar-wrap,
   .ring,
-  .portrait,
-  .left h1,
-  .left .subtitle,
-  .left .lead,
-  .cta-row {
+  .portrait {
     animation: none !important;
     transition: none !important;
   }
@@ -398,6 +462,13 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
   }
   .avatar::after {
     display: none;
+  }
+
+  /* En reduced motion, mostramos todo sin animación */
+  .reveal,
+  .reveal-cta,
+  .reveal-avatar {
+    opacity: 1;
   }
 }
 </style>
