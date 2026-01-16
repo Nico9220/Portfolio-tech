@@ -1,15 +1,23 @@
 <template>
   <section id="inicio" class="hero">
     <div class="left">
+      <section class="hero">
+        <h1 ref="titulo">¡Hola! Soy Nicolás</h1>
+        <p ref="subtitulo">Desarrollador Web | Frontend + Backend</p>
+
+        <div class="cta-row">
+          <a class="btn" ref="btn1" href="#proyectos">VER PROYECTOS</a>
+          <a class="ghost" ref="btn2" href="#sobre-mi">SOBRE MÍ</a>
+        </div>
+      </section>
       <h1>¡Hola! Soy Nicolás</h1>
       <h2 class="subtitle">Desarrollador Web | Fullstack</h2>
 
       <p class="lead">
-        Desarrollo interfaces modernas, rápidas y prolijas. Me enfoco en UX, performance y código mantenible.
+        Desarrollo interfaces modernas, rápidas y prolijas. Me enfoco en UX,
+        performance y código mantenible.
       </p>
-      <p class="lead">
-        Trabajo con Vue 3, React y Laravel.
-      </p>
+      <p class="lead">Trabajo con Vue 3, React y Laravel.</p>
 
       <div class="cta-row">
         <a class="btn" href="#proyectos">VER PROYECTOS</a>
@@ -40,9 +48,10 @@
     <h2 class="section-title">Sobre mí</h2>
 
     <p class="muted">
-      Soy <strong>Nicolás Caretta</strong>, desarrollador web. Me gusta construir productos con una interfaz
-      limpia, buena experiencia de usuario y código mantenible. Busco siempre el equilibrio entre
-      estética, performance y practicidad.
+      Soy <strong>Nicolás Caretta</strong>, desarrollador web. Me gusta
+      construir productos con una interfaz limpia, buena experiencia de usuario
+      y código mantenible. Busco siempre el equilibrio entre estética,
+      performance y practicidad.
     </p>
 
     <!-- <p class="muted small">
@@ -136,7 +145,7 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
   text-shadow: 0 0 26px rgba(60, 220, 255, 0.22);
 }
 
-.subtitle{
+.subtitle {
   margin: 0 0 14px;
   font-size: 16px;
   font-weight: 600;
@@ -193,7 +202,7 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
 }
 
 /* ====== TILT WRAPPER ====== */
-.avatar-wrap{
+.avatar-wrap {
   width: 320px;
   height: 320px;
   perspective: 900px;
@@ -205,7 +214,7 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
   animation: floaty 4.2s ease-in-out infinite;
 }
 
-.avatar{
+.avatar {
   position: relative;
   width: 100%;
   height: 100%;
@@ -217,7 +226,7 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
 }
 
 /* highlight que sigue el mouse */
-.avatar::after{
+.avatar::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -254,59 +263,119 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1px solid rgba(80, 240, 255, 0.20);
-  box-shadow: 0 0 40px rgba(60, 220, 255, 0.10);
+  border: 1px solid rgba(80, 240, 255, 0.2);
+  box-shadow: 0 0 40px rgba(60, 220, 255, 0.1);
   --z: 8px;
 }
 
 /* Rotación 3D sin romper translateZ */
 @keyframes spin3d {
-  from { transform: translateZ(var(--z)) rotate(0deg); }
-  to   { transform: translateZ(var(--z)) rotate(360deg); }
+  from {
+    transform: translateZ(var(--z)) rotate(0deg);
+  }
+  to {
+    transform: translateZ(var(--z)) rotate(360deg);
+  }
 }
 @keyframes spin3dReverse {
-  from { transform: translateZ(var(--z)) rotate(360deg); }
-  to   { transform: translateZ(var(--z)) rotate(0deg); }
+  from {
+    transform: translateZ(var(--z)) rotate(360deg);
+  }
+  to {
+    transform: translateZ(var(--z)) rotate(0deg);
+  }
 }
 
-.ring-1 { inset: 0;  opacity: 1;    --z: 6px;  animation: spin3d 18s linear infinite; }
-.ring-2 { inset: 18px; opacity: 0.75; --z: 10px; animation: spin3dReverse 26s linear infinite; }
-.ring-3 { inset: 38px; opacity: 0.55; --z: 14px; animation: spin3d 34s linear infinite; }
+.ring-1 {
+  inset: 0;
+  opacity: 1;
+  --z: 6px;
+  animation: spin3d 18s linear infinite;
+}
+.ring-2 {
+  inset: 18px;
+  opacity: 0.75;
+  --z: 10px;
+  animation: spin3dReverse 26s linear infinite;
+}
+.ring-3 {
+  inset: 38px;
+  opacity: 0.55;
+  --z: 14px;
+  animation: spin3d 34s linear infinite;
+}
 
 /* Hover pro */
-.avatar-wrap:hover .portrait { --ps: 1.01; }
-.avatar-wrap:hover .ring { box-shadow: 0 0 52px rgba(60, 220, 255, 0.14); }
+.avatar-wrap:hover .portrait {
+  --ps: 1.01;
+}
+.avatar-wrap:hover .ring {
+  box-shadow: 0 0 52px rgba(60, 220, 255, 0.14);
+}
 
 /* ===== Animaciones base ===== */
 @keyframes floaty {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 45px rgba(60, 220, 255, 0.10); }
-  50%      { box-shadow: 0 0 65px rgba(60, 220, 255, 0.18); }
+  0%,
+  100% {
+    box-shadow: 0 0 45px rgba(60, 220, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 65px rgba(60, 220, 255, 0.18);
+  }
 }
 
 /* Entrada suave del texto */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.left h1, .left .subtitle, .left .lead, .cta-row {
+.left h1,
+.left .subtitle,
+.left .lead,
+.cta-row {
   animation: fadeUp 650ms ease both;
 }
-.left .subtitle { animation-delay: 60ms; }
-.left .lead:nth-of-type(1) { animation-delay: 120ms; }
-.left .lead:nth-of-type(2) { animation-delay: 180ms; }
-.cta-row { animation-delay: 240ms; }
+.left .subtitle {
+  animation-delay: 60ms;
+}
+.left .lead:nth-of-type(1) {
+  animation-delay: 120ms;
+}
+.left .lead:nth-of-type(2) {
+  animation-delay: 180ms;
+}
+.cta-row {
+  animation-delay: 240ms;
+}
 
-.about { padding: 46px 0 0; }
+.about {
+  padding: 46px 0 0;
+}
 
 /* Responsive */
 @media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; }
-  .right { justify-content: flex-start; }
-  .avatar-wrap{
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .right {
+    justify-content: flex-start;
+  }
+  .avatar-wrap {
     width: clamp(220px, 70vw, 300px);
     height: clamp(220px, 70vw, 300px);
   }
@@ -314,12 +383,21 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
 
 /* Accesibilidad */
 @media (prefers-reduced-motion: reduce) {
-  .avatar-wrap, .ring, .portrait,
-  .left h1, .left .subtitle, .left .lead, .cta-row {
+  .avatar-wrap,
+  .ring,
+  .portrait,
+  .left h1,
+  .left .subtitle,
+  .left .lead,
+  .cta-row {
     animation: none !important;
     transition: none !important;
   }
-  .avatar { transform: none !important; }
-  .avatar::after { display: none; }
+  .avatar {
+    transform: none !important;
+  }
+  .avatar::after {
+    display: none;
+  }
 }
 </style>
