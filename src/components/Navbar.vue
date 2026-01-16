@@ -1,11 +1,17 @@
 <template>
   <header class="nav">
+    
     <div class="nav-inner">
       <!-- Brand (click vuelve a Inicio) -->
+       
       <a class="brand" href="#inicio" @click="cerrarMenu">
-        <div class="name">NICOLÁS CARETTA</div>
-        <div class="role">Técnico Universitario en Desarrollo Web</div>
-      </a>
+  <img class="brand-logo" src="/logo.svg" alt="Logo" />
+  <!-- <div class="brand-text">
+    <div class="name">NICOLÁS CARETTA</div>
+    <div class="role">Técnico Universitario en Desarrollo Web</div>
+  </div> -->
+</a>
+
 
       <!-- Links desktop -->
       <nav class="links" aria-label="Secciones">
@@ -169,9 +175,17 @@ onBeforeUnmount(() => {
 }
 
 /* Brand */
-.brand {
-  text-decoration: none;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  text-decoration:none;
 }
+.brand-logo{
+  width:36px;
+  height:36px;
+}
+
 .brand .name {
   font-size: 20px;
   letter-spacing: 1px;
@@ -329,6 +343,7 @@ onBeforeUnmount(() => {
   .brand .role {
     font-size: 11px;
   }
+  
   section { scroll-margin-top: 90px; }
 
 }
