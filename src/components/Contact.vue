@@ -56,6 +56,7 @@
           {{ enviando ? "Enviando..." : "Enviar" }}
         </button>
 
+        <!-- opcional: fallback -->
         <a class="ghost" :href="`mailto:${emailDestino}`">Abrir mail</a>
 
         <span class="estado" :class="{ ok: estadoOk }" v-if="estado">
@@ -66,10 +67,14 @@
   </section>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 
+// Tu endpoint real de Formspree
 const FORM_ENDPOINT = "https://formspree.io/f/mbdddbdk";
+
+// (opcional) para el fallback "Abrir mail"
+const emailDestino = "nicolas.caretta20@gmail.com";
 
 const nombre = ref("");
 const email = ref("");
@@ -78,7 +83,7 @@ const mensaje = ref("");
 const enviando = ref(false);
 const estado = ref("");
 const estadoOk = ref(false);
-const hp = ref(""); // honeypot
+const hp = ref("");
 
 function esEmailValido(valor) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
@@ -128,11 +133,11 @@ async function enviarContacto() {
       email.value = "";
       mensaje.value = "";
     } else {
-      // intentamos leer error de formspree
       let data = null;
       try {
         data = await res.json();
       } catch {}
+
       estado.value =
         data?.errors?.[0]?.message ||
         "❌ No se pudo enviar. Probá de nuevo en unos minutos.";
@@ -145,7 +150,7 @@ async function enviarContacto() {
 }
 </script>
 
-<style>
+<style scoped>
 .contacto {
   padding: 56px 0 10px;
 }
@@ -209,7 +214,7 @@ textarea:focus {
   font-size: 12.5px;
 }
 .estado.ok {
-  color: rgba(80,240,255,.95);
+  color: rgba(80, 240, 255, 0.95);
 }
 
 .hp {
