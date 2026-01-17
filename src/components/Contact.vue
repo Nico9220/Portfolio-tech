@@ -1,69 +1,75 @@
 <template>
-          <section id="contacto" class="contacto">
-  <h2 class="section-title">Contacto</h2>
+  <section id="contacto" class="contacto">
+    <h2 class="section-title">Contacto</h2>
 
-  <p class="muted">
-    ¿Querés que hablemos? Mandame un mensaje y te respondo apenas pueda.
-  </p>
+    <p class="muted">
+      ¿Querés que hablemos? Mandame un mensaje y te respondo apenas pueda.
+    </p>
 
-  <form class="form" @submit.prevent="enviarContacto" novalidate>
-    <!-- Anti-spam simple (honeypot) -->
-    <input class="hp" type="text" v-model="hp" tabindex="-1" autocomplete="off" />
+    <form class="form" @submit.prevent="enviarContacto" novalidate>
+      <!-- Anti-spam simple (honeypot) -->
+      <input
+        class="hp"
+        type="text"
+        v-model="hp"
+        tabindex="-1"
+        autocomplete="off"
+      />
 
-    <div class="grid">
-      <div class="campo">
-        <label for="nombre">Nombre</label>
-        <input
-          id="nombre"
-          v-model.trim="nombre"
-          type="text"
-          placeholder="Tu nombre"
-          required
-        />
+      <div class="grid">
+        <div class="campo">
+          <label for="nombre">Nombre</label>
+          <input
+            id="nombre"
+            v-model.trim="nombre"
+            type="text"
+            placeholder="Tu nombre"
+            required
+          />
+        </div>
+
+        <div class="campo">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            v-model.trim="email"
+            type="email"
+            placeholder="tu@email.com"
+            required
+          />
+        </div>
+
+        <div class="campo full">
+          <label for="mensaje">Mensaje</label>
+          <textarea
+            id="mensaje"
+            v-model.trim="mensaje"
+            rows="6"
+            placeholder="Contame en qué te puedo ayudar…"
+            required
+          ></textarea>
+        </div>
       </div>
 
-      <div class="campo">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          v-model.trim="email"
-          type="email"
-          placeholder="tu@email.com"
-          required
-        />
+      <div class="acciones-form">
+        <button class="btn" type="submit" :disabled="enviando">
+          {{ enviando ? "Enviando..." : "Enviar" }}
+        </button>
+
+        <a class="ghost" :href="`mailto:${emailDestino}`">Abrir mail</a>
+
+        <span class="estado" :class="{ ok: estadoOk }" v-if="estado">
+          {{ estado }}
+        </span>
       </div>
-
-      <div class="campo full">
-        <label for="mensaje">Mensaje</label>
-        <textarea
-          id="mensaje"
-          v-model.trim="mensaje"
-          rows="6"
-          placeholder="Contame en qué te puedo ayudar…"
-          required
-        ></textarea>
-      </div>
-    </div>
-
-    <div class="acciones-form">
-      <button class="btn" type="submit" :disabled="enviando">
-        {{ enviando ? "Preparando…" : "Enviar" }}
-      </button>
-
-      <a class="ghost" :href="`mailto:${emailDestino}`">Abrir mail</a>
-
-      <span class="estado" role="status" aria-live="polite" v-if="estado">
-        {{ estado }}
-      </span>
-    </div>
-  </form>
-</section>
+    </form>
+  </section>
 </template>
 
 <script>
-    import { ref } from "vue";
+import { ref } from "vue";
 
-const emailDestino = "tuemail@dominio.com"; // <-- poné tu mail real
+const FORM_ENDPOINT = "https://formspree.io/f/mbdddbdk";
 
 const nombre = ref("");
 const email = ref("");
@@ -71,6 +77,7 @@ const mensaje = ref("");
 
 const enviando = ref(false);
 const estado = ref("");
+const estadoOk = ref(false);
 const hp = ref(""); // honeypot
 
 function esEmailValido(valor) {
@@ -79,53 +86,73 @@ function esEmailValido(valor) {
 
 async function enviarContacto() {
   estado.value = "";
+  estadoOk.value = false;
 
   // anti-bots
   if (hp.value) return;
 
-  if (nombre.value.length < 2) {
-    estado.value = "Escribí tu nombre (mínimo 2 caracteres).";
+  // validaciones básicas
+  if (nombre.value.trim().length < 2) {
+    estado.value = "Escribí tu nombre (mín. 2 caracteres).";
     return;
   }
-  if (!esEmailValido(email.value)) {
+  if (!esEmailValido(email.value.trim())) {
     estado.value = "Revisá el email, parece inválido.";
     return;
   }
-  if (mensaje.value.length < 10) {
-    estado.value = "El mensaje es muy corto (mínimo 10 caracteres).";
+  if (mensaje.value.trim().length < 10) {
+    estado.value = "El mensaje es muy corto (mín. 10 caracteres).";
     return;
   }
 
   enviando.value = true;
 
-  // mailto (funciona en hosting estático)
-  const asunto = encodeURIComponent(`Contacto Portfolio - ${nombre.value}`);
-  const cuerpo = encodeURIComponent(
-    `Nombre: ${nombre.value}\nEmail: ${email.value}\n\nMensaje:\n${mensaje.value}`
-  );
+  try {
+    const res = await fetch(FORM_ENDPOINT, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nombre: nombre.value,
+        email: email.value,
+        mensaje: mensaje.value,
+      }),
+    });
 
-  const url = `mailto:${emailDestino}?subject=${asunto}&body=${cuerpo}`;
-  window.location.href = url;
-
-  // reseteo (opcional)
-  setTimeout(() => {
-    nombre.value = "";
-    email.value = "";
-    mensaje.value = "";
-    estado.value = "Listo. Se abrió tu app de correo 🙂";
+    if (res.ok) {
+      estadoOk.value = true;
+      estado.value = "✅ Mensaje enviado. Gracias!";
+      nombre.value = "";
+      email.value = "";
+      mensaje.value = "";
+    } else {
+      // intentamos leer error de formspree
+      let data = null;
+      try {
+        data = await res.json();
+      } catch {}
+      estado.value =
+        data?.errors?.[0]?.message ||
+        "❌ No se pudo enviar. Probá de nuevo en unos minutos.";
+    }
+  } catch (e) {
+    estado.value = "❌ Error de red. Revisá tu conexión e intentá de nuevo.";
+  } finally {
     enviando.value = false;
-  }, 400);
+  }
 }
 </script>
 
 <style>
-    .contacto {
+.contacto {
   padding: 56px 0 10px;
 }
 
 .form {
   margin-top: 14px;
-  border: 1px solid rgba(80, 240, 255, 0.10);
+  border: 1px solid rgba(80, 240, 255, 0.1);
   background: rgba(0, 140, 200, 0.06);
   border-radius: 18px;
   padding: 18px;
@@ -180,6 +207,9 @@ textarea:focus {
 .estado {
   color: rgba(220, 245, 255, 0.72);
   font-size: 12.5px;
+}
+.estado.ok {
+  color: rgba(80,240,255,.95);
 }
 
 .hp {
