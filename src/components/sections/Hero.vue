@@ -1,5 +1,5 @@
 <template>
-  <section id="inicio" class="hero">
+  <section id="inicio" class="hero section">
     <div class="left">
       <h1 class="reveal">¡Hola! Soy Nicolás</h1>
       <h2 class="subtitle reveal">Desarrollador Web | Fullstack</h2>
@@ -33,42 +33,11 @@
       </div>
     </div>
   </section>
-
-  <section id="sobre-mi" class="about">
-    <h2 class="section-title">Sobre mí</h2>
-
-    <p class="muted">
-      Soy <strong>Nicolás Caretta</strong>, desarrollador web. Me gusta construir
-      productos con una interfaz limpia, buena experiencia de usuario y código
-      mantenible. Me enfoco en escribir componentes claros, cuidar performance y
-      mantener una estructura ordenada tanto en frontend como en backend.
-    </p>
-
-    <ul class="bullets">
-      <li><strong>Frontend:</strong> UI prolija, responsive y accesible</li>
-      <li><strong>Backend:</strong> APIs REST, validaciones y lógica clara</li>
-      <li><strong>Calidad:</strong> buenas prácticas, orden y consistencia</li>
-    </ul>
-
-    <div class="chips">
-      <span class="chip">Vue 3</span>
-      <span class="chip">React</span>
-      <span class="chip">Laravel</span>
-      <span class="chip">MySQL</span>
-      <span class="chip">Git</span>
-      <span class="chip">REST</span>
-    </div>
-
-    <div class="cta-row">
-      <a class="btn" href="#proyectos">Ver proyectos</a>
-      <a class="ghost" href="#contacto">Contactarme</a>
-    </div>
-  </section>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import perfil from "../assets/perfil.jpg";
+import perfil from "../../assets/perfil.jpg";
 import { createTimeline, stagger } from "animejs";
 
 const avatarWrap = ref(null);
@@ -138,9 +107,7 @@ const tiltStyle = computed(() => ({
 onMounted(() => {
   if (reducedMotion) return;
 
-  introTl = createTimeline({
-    defaults: { easing: "easeOutExpo" },
-  });
+  introTl = createTimeline({ defaults: { easing: "easeOutExpo" } });
 
   introTl.add(".left .reveal", {
     opacity: [0, 1],
@@ -223,6 +190,7 @@ onBeforeUnmount(() => {
   margin-top: 10px;
 }
 
+/* Botones */
 .btn {
   display: inline-block;
   padding: 12px 16px;
@@ -264,8 +232,6 @@ onBeforeUnmount(() => {
   display: grid;
   place-items: center;
   touch-action: none;
-
-  /* flotación acá (para no chocar con tilt) */
   animation: floaty 4.2s ease-in-out infinite;
 }
 
@@ -274,13 +240,11 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-
   transform: rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--lift));
   transition: transform 180ms ease;
   will-change: transform;
 }
 
-/* highlight que sigue el mouse */
 .avatar::after {
   content: "";
   position: absolute;
@@ -295,7 +259,6 @@ onBeforeUnmount(() => {
   opacity: 0.95;
 }
 
-/* ====== Avatar elements ====== */
 .portrait {
   position: absolute;
   inset: 46px;
@@ -304,11 +267,9 @@ onBeforeUnmount(() => {
   height: calc(100% - 92px);
   object-fit: cover;
   object-position: center 30%;
-
   border: 1px solid rgba(80, 240, 255, 0.18);
   box-shadow: 0 0 45px rgba(60, 220, 255, 0.12);
   filter: contrast(1.05) saturate(1.05);
-
   transform: translateZ(18px) scale(var(--ps, 1));
   animation: pulseGlow 3.8s ease-in-out infinite;
 }
@@ -322,7 +283,6 @@ onBeforeUnmount(() => {
   --z: 8px;
 }
 
-/* Rotación 3D sin romper translateZ */
 @keyframes spin3d {
   from {
     transform: translateZ(var(--z)) rotate(0deg);
@@ -359,7 +319,6 @@ onBeforeUnmount(() => {
   animation: spin3d 34s linear infinite;
 }
 
-/* Hover pro */
 .avatar-wrap:hover .portrait {
   --ps: 1.01;
 }
@@ -367,7 +326,6 @@ onBeforeUnmount(() => {
   box-shadow: 0 0 52px rgba(60, 220, 255, 0.14);
 }
 
-/* ===== Animaciones base ===== */
 @keyframes floaty {
   0%,
   100% {
@@ -387,55 +345,6 @@ onBeforeUnmount(() => {
   }
 }
 
-/* ===== About ===== */
-.about {
-  padding: 46px 0 0;
-}
-
-.section-title {
-  margin: 0 0 14px;
-  font-size: 22px;
-  color: rgba(220, 252, 255, 0.92);
-  text-shadow: 0 0 18px rgba(60, 220, 255, 0.14);
-}
-
-.muted {
-  color: rgba(220, 245, 255, 0.72);
-  line-height: 1.6;
-  max-width: 70ch;
-}
-
-.small {
-  font-size: 12.5px;
-  opacity: 0.9;
-}
-
-.bullets {
-  margin: 14px 0 12px;
-  padding-left: 18px;
-  color: rgba(220, 245, 255, 0.72);
-  line-height: 1.6;
-}
-.bullets li {
-  margin: 6px 0;
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 10px 0 12px;
-}
-.chip {
-  font-size: 12px;
-  padding: 7px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(80, 240, 255, 0.14);
-  background: rgba(0, 140, 200, 0.08);
-  color: rgba(220, 245, 255, 0.78);
-}
-
-/* Responsive */
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
@@ -449,7 +358,6 @@ onBeforeUnmount(() => {
   }
 }
 
-/* Accesibilidad */
 @media (prefers-reduced-motion: reduce) {
   .avatar-wrap,
   .ring,
@@ -463,8 +371,6 @@ onBeforeUnmount(() => {
   .avatar::after {
     display: none;
   }
-
-  /* En reduced motion, mostramos todo sin animación */
   .reveal,
   .reveal-cta,
   .reveal-avatar {

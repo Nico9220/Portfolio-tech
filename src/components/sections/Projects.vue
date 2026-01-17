@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import ProjectCard from "./ProjectCard.vue";
+import ProjectCard from "../ProjectCard.vue";
 
 const projects = [
   {
@@ -55,6 +55,8 @@ const projects = [
   gap: 18px;
 }
 @media (max-width: 900px) {
-  .grid { grid-template-columns: 1fr; }
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

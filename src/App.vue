@@ -4,6 +4,7 @@
     <Navbar />
     <main class="container">
       <Hero />
+      <AboutMe />
       <Projects />
       <Contact />
     </main>
@@ -12,12 +13,12 @@
 </template>
 
 <script setup>
-import HackerBackground from "./components/HackerBackground.vue";
-import Navbar from "./components/Navbar.vue";
-import Hero from "./components/Hero.vue";
-import Projects from "./components/Projects.vue";
-import FooterTerminal from "./components/FooterTerminal.vue";
-import Contact from "./components/Contact.vue";
+import Navbar from "./components/layout/Navbar.vue";
+import Hero from "./components/sections/Hero.vue";
+import AboutMe from "./components/sections/AboutMe.vue";
+import Projects from "./components/sections/Projects.vue";
+import Contact from "./components/sections/Contact.vue";
+import FooterTerminal from "./components/sections/FooterTerminal.vue";
 </script>
 
 <style>
@@ -54,6 +55,4 @@ import Contact from "./components/Contact.vue";
 html {
   scroll-behavior: smooth;
 }
-
-
 </style>
