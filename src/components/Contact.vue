@@ -21,10 +21,12 @@
           <label for="nombre">Nombre</label>
           <input
             id="nombre"
+            autocomplete="name"
             v-model.trim="nombre"
             type="text"
             placeholder="Tu nombre"
             required
+            :disabled="enviando"
           />
         </div>
 
@@ -32,10 +34,12 @@
           <label for="email">Email</label>
           <input
             id="email"
+            autocomplete="email"
             v-model.trim="email"
             type="email"
             placeholder="tu@email.com"
             required
+            :disabled="enviando"
           />
         </div>
 
@@ -44,9 +48,11 @@
           <textarea
             id="mensaje"
             v-model.trim="mensaje"
+            autocomplete="off"
             rows="6"
             placeholder="Contame en qué te puedo ayudar…"
             required
+            :disabled="enviando"
           ></textarea>
         </div>
       </div>
@@ -55,9 +61,6 @@
         <button class="btn" type="submit" :disabled="enviando">
           {{ enviando ? "Enviando..." : "Enviar" }}
         </button>
-
-        <!-- opcional: fallback -->
-        <a class="ghost" :href="`mailto:${emailDestino}`">Abrir mail</a>
 
         <span class="estado" :class="{ ok: estadoOk }" v-if="estado">
           {{ estado }}
@@ -72,9 +75,6 @@ import { ref } from "vue";
 
 // Tu endpoint real de Formspree
 const FORM_ENDPOINT = "https://formspree.io/f/mbdddbdk";
-
-// (opcional) para el fallback "Abrir mail"
-const emailDestino = "nicolas.caretta20@gmail.com";
 
 const nombre = ref("");
 const email = ref("");
@@ -132,15 +132,14 @@ async function enviarContacto() {
       nombre.value = "";
       email.value = "";
       mensaje.value = "";
-    } else {
-      let data = null;
-      try {
-        data = await res.json();
-      } catch {}
 
-      estado.value =
-        data?.errors?.[0]?.message ||
-        "❌ No se pudo enviar. Probá de nuevo en unos minutos.";
+      setTimeout(() => {
+        estado.value = "";
+        estadoOk.value = false;
+      }, 4500);
+    } else {
+      estadoOk.value = false;
+      estado.value = "❌ No se pudo enviar. Probá de nuevo en unos minutos.";
     }
   } catch (e) {
     estado.value = "❌ Error de red. Revisá tu conexión e intentá de nuevo.";
