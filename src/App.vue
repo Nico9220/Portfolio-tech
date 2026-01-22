@@ -1,3 +1,13 @@
+<script setup>
+import Navbar from "./components/layout/Navbar.vue";
+import Hero from "./components/sections/Hero.vue";
+import AboutMe from "./components/sections/AboutMe.vue";
+import Projects from "./components/sections/Projects.vue";
+import Contact from "./components/sections/Contact.vue";
+import FooterTerminal from "./components/sections/FooterTerminal.vue";
+import HackerBackground from "./components/HackerBackground.vue"
+</script>
+
 <template>
   <HackerBackground />
   <div class="app-shell">
@@ -11,15 +21,6 @@
     <FooterTerminal />
   </div>
 </template>
-
-<script setup>
-import Navbar from "./components/layout/Navbar.vue";
-import Hero from "./components/sections/Hero.vue";
-import AboutMe from "./components/sections/AboutMe.vue";
-import Projects from "./components/sections/Projects.vue";
-import Contact from "./components/sections/Contact.vue";
-import FooterTerminal from "./components/sections/FooterTerminal.vue";
-</script>
 
 <style>
 .app-shell {

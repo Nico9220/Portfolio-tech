@@ -151,7 +151,9 @@ async function enviarContacto() {
 
 <style scoped>
 .contacto {
-  padding: 56px 0 10px;
+  margin-top: 18px;
+  display: grid;
+  justify-content: center;
 }
 
 .form {
