@@ -97,7 +97,7 @@ const seccionActiva = ref("inicio");
 const links = {
   github: "https://github.com/Nico9220",
   linkedin: "https://www.linkedin.com/in/nicol%C3%A1s-marcelo-caretta-saez-9537223a6/", 
-  cv: "#",       // <- PDF o drive
+  cv: "#",
 };
 
 function toggleMenu() {
